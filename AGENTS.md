@@ -46,3 +46,17 @@
 1. 在專案目錄執行 `opencode`
 2. 說「開工」查看進度
 3. 說「收工」同步變更
+
+## 同步對照表
+
+| 位置 | 對應路徑 |
+|------|---------|
+| GitHub 遠端 | `https://github.com/t92016/opencode-lazy-packs` |
+| 本機專案 | `J:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711` |
+| Obsidian 工作筆記 | `創作庫/OpenCode 懶人包測試/README.md` |
+
+## 更新紀錄
+
+| 日期 | 更新內容 |
+|------|---------|
+| 2026-07-11 | 專案初始化完成 |
