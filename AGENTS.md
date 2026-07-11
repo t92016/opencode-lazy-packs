@@ -52,6 +52,7 @@
 | 位置 | 對應路徑 |
 |------|---------|
 | GitHub 遠端 | `https://github.com/t92016/opencode-lazy-packs` |
+| GitHub Pages (公開) | `https://t92016.github.io/opencode-lazy-packs/` |
 | 本機專案 | `J:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711` |
 | Obsidian 工作筆記 | `創作庫/OpenCode 懶人包測試/README.md` |
 
