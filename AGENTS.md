@@ -15,7 +15,7 @@
 
 ## Obsidian 第二大腦關聯資料
 
-- **Obsidian vault**：`J:\我的雲端硬碟\AI\2ndbrain`
+- **Obsidian vault**：`G:\我的雲端硬碟\AI\2ndbrain`
 - **專案工作筆記**：`創作庫/OpenCode 懶人包測試/`
 - **每日筆記**：`每日筆記/<日期>.md`
 - **Templates**：`Templates/`
@@ -40,6 +40,8 @@
 | startup | 開工 / 我來了 | 讀進度 + 檢查 Git |
 | shutdown | 收工 / 下班 | Git 同步 + 更新 Obsidian |
 | project-init | 初始化專案 | 建立新專案結構 |
+| draw | 畫一張 / 生圖 | OpenAI gpt-image-2 生圖 |
+| audio-to-srt | 做字幕 / 轉 SRT | Groq Whisper 語音轉字幕 |
 
 ## 使用方式
 
@@ -53,7 +55,7 @@
 |------|---------|
 | GitHub 遠端 | `https://github.com/t92016/opencode-lazy-packs` |
 | GitHub Pages (公開) | `https://t92016.github.io/opencode-lazy-packs/` |
-| 本機專案 | `J:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711` |
+| 本機專案 | `G:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711` |
 | Obsidian 工作筆記 | `創作庫/OpenCode 懶人包測試/README.md` |
 
 ## 異地異機同步 — 新電腦設定指南
@@ -76,10 +78,10 @@
 
 ```
 # 檢查 Google Drive 是否有備份
-Get-ChildItem "J:\我的雲端硬碟\AI\AI Agents\opencode-config-backup"
+Get-ChildItem "G:\我的雲端硬碟\AI\AI Agents\opencode-config-backup"
 
 # 手動還原（把備份 zip 解壓到 ~/.config/opencode/）
-$latestZip = "J:\我的雲端硬碟\AI\AI Agents\opencode-config-backup\opencode-config-latest.zip"
+$latestZip = "G:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-config-backup\opencode-config-latest.zip"
 $target = "$env:USERPROFILE\.config\opencode"
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -107,7 +109,7 @@ nlm login
 
 ```
 # 切到專案目錄
-cd J:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711
+cd G:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711
 opencode
 # 然後說「開工」
 ```

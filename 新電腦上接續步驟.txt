@@ -1,0 +1,14 @@
+新電腦上接續步驟
+(1)安裝 Node.js → npm install -g opencode-ai
+(2)還原 opencode-config-latest.zip 到 ~/.config/opencode/
+(3)nlm login + gh auth login
+(4)Google Drive 同步專案資料夾 → 執行 opencode
+(5)說「開工」→ Agent 會告訴你今天的進度
+
+
+
+✅ 有更新的
+Git push → generated/ 資料夾（11 張圖）+ 對話紀錄檔
+Obsidian 每日筆記 2026-07-11.md → 補上完成項目
+Obsidian 工作筆記 創作庫/OpenCode 懶人包測試/README.md → 補上測試記錄
+Google Drive 備份 → opencode-config-latest.zip（6 個 MCP + 4 個技能）
