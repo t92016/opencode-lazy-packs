@@ -15,7 +15,7 @@
 
 ## Obsidian 第二大腦關聯資料
 
-- **Obsidian vault**：`G:\我的雲端硬碟\AI\2ndbrain`
+- **Obsidian vault**：`J:\我的雲端硬碟\AI\2ndbrain`
 - **專案工作筆記**：`創作庫/OpenCode 懶人包測試/`
 - **每日筆記**：`每日筆記/<日期>.md`
 - **Templates**：`Templates/`
@@ -40,8 +40,6 @@
 | startup | 開工 / 我來了 | 讀進度 + 檢查 Git |
 | shutdown | 收工 / 下班 | Git 同步 + 更新 Obsidian |
 | project-init | 初始化專案 | 建立新專案結構 |
-| draw | 畫一張 / 生圖 | OpenAI gpt-image-2 生圖 |
-| audio-to-srt | 做字幕 / 轉 SRT | Groq Whisper 語音轉字幕 |
 
 ## 使用方式
 
@@ -55,8 +53,40 @@
 |------|---------|
 | GitHub 遠端 | `https://github.com/t92016/opencode-lazy-packs` |
 | GitHub Pages (公開) | `https://t92016.github.io/opencode-lazy-packs/` |
-| 本機專案 | `G:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711` |
+| 本機專案 | `J:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711` |
 | Obsidian 工作筆記 | `創作庫/OpenCode 懶人包測試/README.md` |
+
+## Chezmoi 跨電腦 dotfiles 同步（主要備份機制）
+
+Chezmoi 負責管理 `~/.config/opencode/` 下的 OpenCode 設定與全域技能，
+儲存在 GitHub 私人 repo `t92016/dotfiles`。
+
+### 基本指令
+
+```bash
+# 新增檔案納入管理
+chezmoi add ~/.config/opencode/opencode.json
+
+# 編輯受管理的檔案（會自動套用 template）
+chezmoi edit ~/.config/opencode/opencode.jsonc
+
+# 查看預覽異動
+chezmoi diff
+
+# 套用異動到本機
+chezmoi apply
+
+# 同步遠端最新版
+chezmoi update
+```
+
+### 注意
+
+- `opencode.jsonc` 包含 GitHub PAT，已設為 chezmoi template，
+  使用 `{{ envVar \"GITHUB_PERSONAL_ACCESS_TOKEN\" }}` 讀取環境變數，
+  該變數已寫入 PowerShell Profile（`Microsoft.PowerShell_profile.ps1`），
+  startup 技能開工時也會檢查是否已設定
+- `node_modules`、`.git`、`package-lock.json` 已透過 `.chezmoiignore` 排除
 
 ## 異地異機同步 — 新電腦設定指南
 
@@ -68,20 +98,33 @@
 1. 安裝 Node.js (https://nodejs.org) → 確認 node --version 可用
 2. 安裝 GitHub CLI → 確認 gh --version 可用
 3. npm install -g opencode-ai           → 確認 opencode --version 可用
-4. 用 Google Drive 同步本機專案資料夾
-   或 git clone https://github.com/t92016/opencode-lazy-packs
+4. 安裝 Chezmoi → winget install --id twpayne.chezmoi -e
+5. 用 Google Drive 同步本機專案資料夾
+    或 git clone https://github.com/t92016/opencode-lazy-packs
 ```
 
 ### 第二步：還原 OpenCode 設定
 
-開啟 PowerShell，執行以下命令還原備份的設定檔：
+開啟 PowerShell，執行以下命令還原設定檔。
 
+**主要方式（Chezmoi）**：
+```bash
+# 安裝 Chezmoi + 同步 dotfiles
+winget install --id twpayne.chezmoi -e
+chezmoi init --apply https://github.com/t92016/dotfiles.git
+
+# 需要先設定 GitHub PAT 環境變數（因 opencode.jsonc 模板需要）
+$env:GITHUB_PERSONAL_ACCESS_TOKEN = "ghp_你的token"
+chezmoi apply
+```
+
+**備援方式（Google Drive）**：
 ```
 # 檢查 Google Drive 是否有備份
-Get-ChildItem "G:\我的雲端硬碟\AI\AI Agents\opencode-config-backup"
+Get-ChildItem "J:\我的雲端硬碟\AI\AI Agents\opencode-config-backup"
 
 # 手動還原（把備份 zip 解壓到 ~/.config/opencode/）
-$latestZip = "G:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-config-backup\opencode-config-latest.zip"
+$latestZip = "J:\我的雲端硬碟\AI\AI Agents\opencode-config-backup\opencode-config-latest.zip"
 $target = "$env:USERPROFILE\.config\opencode"
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -109,7 +152,7 @@ nlm login
 
 ```
 # 切到專案目錄
-cd G:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711
+cd J:\我的雲端硬碟\AI\AI Agents\OpenCode\opencode-lazy-packs_20260711
 opencode
 # 然後說「開工」
 ```
@@ -120,13 +163,17 @@ opencode
 |------|-----------------|------|
 | Node.js + npm | ✅ | 基礎環境 |
 | opencode-ai 全域安裝 | ✅ | `npm install -g opencode-ai` |
-| 還原 `~/.config/opencode/` | ✅ | 從 Google Drive 備份解壓 |
+| 還原 `~/.config/opencode/` | ✅ | 從 Chezmoi 或 Google Drive 備份解壓 |
+| Chezmoi 安裝 | ✅ | `winget install --id twpayne.chezmoi -e` |
+| Chezmoi 還原 dotfiles | ✅ | `chezmoi init --apply https://github.com/t92016/dotfiles.git` |
+| 設定 GitHub PAT 環境變數 | ✅ | `$env:GITHUB_PERSONAL_ACCESS_TOKEN = "ghp_..."` |
 | Obsidian Vault 同步 | ✅ | 確認 Google Drive 有同步到 |
 | NotebookLM 重新登入 | ✅ | `nlm login`（Google 認證綁本機） |
 | GitHub CLI 登入 | ✅ | `gh auth login` |
 | 專案資料夾同步 | ✅ | Google Drive 或 git clone |
 
-> **之後每次說「收工」**，shutdown 技能會自動備份 `~/.config/opencode/` 到 Google Drive。
+> **之後每次說「收工」**，shutdown 技能會以 Chezmoi 為主要備份機制同步 `~/.config/opencode/`
+> 到 GitHub（私人 repo `t92016/dotfiles`），同時以 Google Drive 做輔助備份（保留 3 天）。
 > 換新電腦時只要重複「第二步驟」還原設定，就能無縫接續。
 
 ## 更新紀錄
@@ -135,3 +182,4 @@ opencode
 |------|---------|
 | 2026-07-11 | 專案初始化完成 |
 | 2026-07-11 | 新增異地同步指南 + shutdown 雲端備份功能 |
+| 2026-07-20 | 導入 Chezmoi 為主要備份機制（dotfiles GitHub 私人 repo），Google Drive 改為輔助備份（保留 3 天） |
